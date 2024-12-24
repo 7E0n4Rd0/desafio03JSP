@@ -21,4 +21,11 @@ public class ClientService {
         return result;
     }
 
+    @Transactional
+    public ClientDTO findById(Long id){
+        ClientDTO dto = new ClientDTO(repository.findById(id).get());
+        return dto;
+    }
+
+
 }
