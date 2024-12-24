@@ -5,6 +5,7 @@ import com.leonardo.desafio03JSP.entities.Client;
 import com.leonardo.desafio03JSP.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -43,6 +44,12 @@ public class ClientService {
         return new ClientDTO(entity);
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id){
+        repository.deleteById(id);
+    }
+
+
 
     private void copyClientDtoToClient(Client entity, ClientDTO dto) {
         entity.setName(dto.getName());
@@ -51,6 +58,4 @@ public class ClientService {
         entity.setBirthDate(dto.getBirthDate());
         entity.setChildren(dto.getChildren());
     }
-
-
 }
