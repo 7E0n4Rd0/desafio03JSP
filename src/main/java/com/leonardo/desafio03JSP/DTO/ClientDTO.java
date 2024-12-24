@@ -1,15 +1,20 @@
 package com.leonardo.desafio03JSP.DTO;
 
 import com.leonardo.desafio03JSP.entities.Client;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public class ClientDTO {
 
     private Long id;
+    @NotNull(message = "Field Required: name cannot be null.")
+    @NotEmpty(message = "Field Required: name cannot be empty.")
+    @NotBlank(message = "Field Required: name cannot be blank.")
     private String name;
     private String cpf;
     private Double income;
+    @PastOrPresent(message = "The birth date cannot be in the future")
     private LocalDate birthDate;
     private Integer children;
 

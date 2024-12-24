@@ -2,7 +2,10 @@ package com.leonardo.desafio03JSP.controllers;
 
 import com.leonardo.desafio03JSP.DTO.ClientDTO;
 import com.leonardo.desafio03JSP.services.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,8 +21,8 @@ public class ClientController {
     private ClientService service;
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> findAll(){
-        List<ClientDTO> result = service.findAll();
+    public ResponseEntity<Page<ClientDTO>> findAll(Pageable pageable){
+        Page<ClientDTO> result = service.findAll(pageable);
         return ResponseEntity.ok().body(result);
     }
 
@@ -30,7 +33,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<ClientDTO> insert(@RequestBody ClientDTO dto){
+    public ResponseEntity<ClientDTO> insert(@Valid @RequestBody ClientDTO dto){
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
@@ -38,7 +41,7 @@ public class ClientController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO dto){
+    public ResponseEntity<ClientDTO> update(@PathVariable Long id, @Valid @RequestBody ClientDTO dto){
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
